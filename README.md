@@ -17,11 +17,65 @@ A Model Context Protocol (MCP) server that provides seamless integration with lo
 - [Ollama](https://ollama.ai) installed and running locally
 - At least one Ollama model pulled (e.g., `ollama pull llama3.2`)
 
-## Installation
+## Quick Start
+
+### Option 1: Automated Installation (Easiest)
+
+```bash
+# Clone and install with one script
+git clone <repository-url>
+cd ollama-mcp-server
+./install.sh
+```
+
+The install script will:
+- Check Node.js and Ollama prerequisites
+- Install dependencies and build the project
+- Test Ollama connection
+- Show next steps
+
+### Option 2: Using npx (Recommended)
+
+You can run the server directly without installing globally:
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd ollama-mcp-server
+
+# Install dependencies and build
+npm install
+npm run build
+
+# Run with npx
+npx . 
+
+# Or run directly
+npm start
+```
+
+**Benefits of npx approach:**
+- No global installation required
+- Easy to update and manage
+- Works well with MCP client configurations
+- Portable across different environments
+
+### Option 2: Global Installation
+
+```bash
+# Install globally
+npm install -g .
+
+# Run from anywhere
+ollama-mcp-server
+```
+
+### Option 3: Local Development
 
 ```bash
 npm install
 npm run build
+npm start
 ```
 
 ## Usage
@@ -91,6 +145,66 @@ Check if Ollama server is running and accessible.
 **Input**: None
 **Output**: Health status and server information
 
+## Setup with Cursor IDE
+
+To use this MCP server with Cursor IDE, you need to configure it in your MCP settings:
+
+### 1. Install and Build the Server
+
+```bash
+git clone <repository-url>
+cd ollama-mcp-server
+npm install
+npm run build
+```
+
+### 2. Configure Cursor
+
+Add the following to your Cursor MCP configuration file (usually at `~/.cursor-mcp/config.json` or similar):
+
+```json
+{
+  "mcpServers": {
+    "ollama": {
+      "command": "node",
+      "args": ["/path/to/ollama-mcp-server/dist/index.js"],
+      "env": {
+        "OLLAMA_URL": "http://localhost:11434"
+      }
+    }
+  }
+}
+```
+
+### 3. Alternative: Using npx in Cursor
+
+You can also configure Cursor to use npx:
+
+```json
+{
+  "mcpServers": {
+    "ollama": {
+      "command": "npx",
+      "args": ["/path/to/ollama-mcp-server"],
+      "env": {
+        "OLLAMA_URL": "http://localhost:11434"
+      }
+    }
+  }
+}
+```
+
+### 4. Verify Setup
+
+After configuration, restart Cursor and you should see the Ollama tools available in the MCP tool list:
+- `ollama_list_models`
+- `ollama_generate`
+- `ollama_chat`
+- `ollama_pull_model`
+- `ollama_show_model`
+- `ollama_delete_model`
+- `ollama_health_check`
+
 ## Configuration
 
 Set the Ollama server URL via environment variable:
@@ -100,6 +214,12 @@ export OLLAMA_URL=http://localhost:11434
 ```
 
 Default: `http://localhost:11434`
+
+### Environment Variables
+
+- **OLLAMA_URL**: Ollama server URL (default: `http://localhost:11434`)
+- **NODE_ENV**: Environment mode (`development`, `production`)
+- **DEBUG**: Enable debug logging (`true`/`false`)
 
 ## Example Usage
 

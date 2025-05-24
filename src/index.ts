@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { OllamaMCPServer } from './server.js';
+import { OllamaMCPServer } from './server';
 
 async function main(): Promise<void> {
   const ollamaUrl = process.env.OLLAMA_URL || 'http://localhost:11434';
